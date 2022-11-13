@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1668213083 source:e:\labosc\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<queue>
+	<string>
+	<iostream>
+	<array>
+	<algorithm>
+	<string.h>
+
