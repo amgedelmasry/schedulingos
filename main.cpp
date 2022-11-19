@@ -207,6 +207,41 @@ string typeofalg(int type)
         return "Aging ";
     }
 }
+string typeofalg1(int type)
+{
+    if(type==1)
+    {
+        return "FCFS";
+    }
+    else if(type==2)
+    {
+        return "RR-"+to_string(quantum);
+    }
+    else if(type==3)
+    {
+        return "SPN";
+    }
+    else if(type==4)
+    {
+        return "SRT";
+    }
+    else if(type==5)
+    {
+        return "HRRN";
+    }
+    else if(type==6)
+    {
+        return "FB-1";
+    }
+    else if(type==7)
+    {
+        return "FB-2i";
+    }
+    else if(type==8)
+    {
+        return "Aging";
+    }
+}
 int main()
 {
     string SorT;
@@ -279,6 +314,7 @@ int main()
             }
         }
         string type=typeofalg(stoi(scheduling[nos]));
+        string typestats=typeofalg1(stoi(scheduling[nos]));
         switch(stoi(scheduling[nos]))
         {
         case 1:
@@ -343,6 +379,7 @@ int main()
         {
             quantum=quantums.front();
             quantums.pop();
+            type=typeofalg(stoi(scheduling[nos]));
             int t=sorted[0].arrivalt;
             queue<process> b;
             b.push(sorted[0]);
