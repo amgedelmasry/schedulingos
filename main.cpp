@@ -102,7 +102,7 @@ void trace (string schname,int interval,process processes[],int size,char **time
     {
         printf("%d ",i%10);
     }
-    printf(" \n------------------------------------------------\n");
+    printf("\n------------------------------------------------\n");
     for(int i=0; i<size; i++)
     {
         printf("%c     |",processes[i].name);
@@ -168,7 +168,8 @@ void stats (string schname,int interval,process processes[],int size,char **time
     for(int i=0;i<size;i++){
         printf("|%*.2f",5,processes[i].trts);
     }
-    printf("|%*.2f|\n",5,meanTRTS);
+    printf("|%*.2f|\n\n",5,meanTRTS);
+
 
 }
 string typeofalg(int type)
@@ -215,6 +216,7 @@ int main()
     vector<string> scheduling;
     stringstream check1(algorithms);
     string token;
+    queue<int> quantums;
     while(getline(check1, token, ','))
     {
         string oneS=token;
@@ -228,6 +230,7 @@ int main()
         scheduling.push_back(w[0]);
         if(w[0].compare("2")==0){
             quantum=stoi(w[1]);
+            quantums.push(quantum);
 
         }
         if(w[0].compare("8")==0){
@@ -338,6 +341,8 @@ int main()
         }
         case(2):
         {
+            quantum=quantums.front();
+            quantums.pop();
             int t=sorted[0].arrivalt;
             queue<process> b;
             b.push(sorted[0]);
