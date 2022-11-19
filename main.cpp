@@ -59,7 +59,7 @@ struct compareRT
     {
         if(p1.remainingt == p2.remainingt)
         {
-            return p1.arrivalt>p2.arrivalt;
+            return p1.arrivalt<p2.arrivalt;
         }
         else
         {
@@ -73,7 +73,7 @@ struct compareVP
     {
         if(p1.VP == p2.VP)
         {
-            return p1.arrivalt>p2.arrivalt;
+            return p1.arrivalt<p2.arrivalt;
         }
         else
         {
@@ -307,6 +307,8 @@ int main()
             sorted[i].Turnt=0;
             sorted[i].trts=0;
             sorted[i].waitingt=0;
+            meanTA=0;
+            meanTRTS=0;
             time[i] = new char[interval];
             for(int j=0; j<interval; j++)
             {
@@ -380,6 +382,7 @@ int main()
             quantum=quantums.front();
             quantums.pop();
             type=typeofalg(stoi(scheduling[nos]));
+            typestats=typeofalg1(stoi(scheduling[nos]));
             int t=sorted[0].arrivalt;
             queue<process> b;
             b.push(sorted[0]);
@@ -811,12 +814,6 @@ int main()
                     }
                 }
                 for(int qu=quantumA;qu!=0;qu--){
-                    for(int mm=endt;mm>=x.arrivalt;mm--){
-                            if(time[temp][mm] != '*')
-                            {
-                                time[temp][mm]='.';
-                            }
-                        }
                     time[temp][endt]='*';
                     endt++;
                     for(int y=1; y<n; y++)
@@ -843,6 +840,14 @@ int main()
                     prQ.push(y);
                 }
                 prQ.push(x);
+            }
+            for(int wow=0;wow<n;wow++){
+                for(int mm=interval;mm>=x.arrivalt;mm--){
+                                if(time[wow][mm] != '*')
+                                {
+                                    time[wow][mm]='.';
+                                }
+                }
             }
             break;
         }
