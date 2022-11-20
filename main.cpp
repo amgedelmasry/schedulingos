@@ -25,6 +25,7 @@ struct process
     int realP=0;
     int VP=0;
     int Turnt=0;
+    int d5ol;
     float trts;
 };
 typedef struct process process;
@@ -59,7 +60,7 @@ struct compareRT
     {
         if(p1.remainingt == p2.remainingt)
         {
-            return p1.arrivalt<p2.arrivalt;
+            return p1.arrivalt>p2.arrivalt;
         }
         else
         {
@@ -73,7 +74,7 @@ struct compareVP
     {
         if(p1.VP == p2.VP)
         {
-            return p1.arrivalt<p2.arrivalt;
+            return p1.d5ol>p2.d5ol;
         }
         else
         {
@@ -792,15 +793,45 @@ int main()
         }
         case(8):
         {
+            process z;
             priority_queue<process, vector<process>, compareVP > prQ;
             priority_queue<process, vector<process>, compareVP > tempPrQ;
             int endt=0;
             process x;
-            prQ.push(sorted[0]);
-            endt+=prQ.top().arrivalt;
-            int temp;
+            int temp=-10;
             while(endt<interval)
             {
+                for(int y=0; y<n; y++)
+                    {
+                        if(sorted[y].arrivalt==endt)
+                        {
+                            process tempproc=sorted[y];
+                            tempproc.d5ol=endt;
+                            prQ.push(tempproc);
+
+                        }
+                    }
+                //printf("slot %d 1:%d ",endt,prQ.size()) ;
+                //printf("2:%d",prQ.size()) ;
+                 while(!prQ.empty())
+                {
+                    process y=prQ.top();
+                    prQ.pop();
+                    y.VP++;
+                    tempPrQ.push(y);
+                    //printf("%c priority=%d ",y.name,y.VP);
+                }
+                printf("slot %d\n",endt);
+                while(!tempPrQ.empty())
+                {
+                    process y=tempPrQ.top();
+                    tempPrQ.pop();
+                    prQ.push(y);
+                }
+                if(temp>-10){
+                    z.d5ol=endt;
+                    prQ.push(z);
+                }
                 x=prQ.top();
                 prQ.pop();
                 for(int i=0; i<n; i++)
@@ -816,33 +847,15 @@ int main()
                 for(int qu=quantumA;qu!=0;qu--){
                     time[temp][endt]='*';
                     endt++;
-                    for(int y=1; y<n; y++)
-                    {
-                        if(sorted[y].arrivalt==endt)
-                        {
-                            process tempproc=sorted[y];
-                            prQ.push(tempproc);
-                        }
-                    }
                 }
+                //printf("3:%d ",prQ.size()) ;
                 x.VP=x.realP;
-                while(!prQ.empty())
-                {
-                    process y=prQ.top();
-                    prQ.pop();
-                    y.VP++;
-                    tempPrQ.push(y);
-                }
-                while(!tempPrQ.empty())
-                {
-                    process y=tempPrQ.top();
-                    tempPrQ.pop();
-                    prQ.push(y);
-                }
-                prQ.push(x);
+                //printf("4:%d ",prQ.size()) ;
+                z=x;
+                //printf("5:%d\n",prQ.size()) ;
             }
             for(int wow=0;wow<n;wow++){
-                for(int mm=interval;mm>=x.arrivalt;mm--){
+                for(int mm=interval-1;mm>=sorted[wow].arrivalt;mm--){
                                 if(time[wow][mm] != '*')
                                 {
                                     time[wow][mm]='.';
